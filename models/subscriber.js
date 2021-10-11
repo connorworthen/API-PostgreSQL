@@ -1,13 +1,19 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
-// Creating Model to interact with DB
 
-// Create Schema
-const subscriberSchema = new Schema({
-    name: { type: String, required: true },
-    subscribedToChannel: { type: String, required: true },
-    subscribedData: { type: Date, default: Date.now}
+const subscriberSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  subscribedToChannel: {
+    type: String,
+    required: true
+  },
+  subscribeDate: {
+    type: Date,
+    required: true,
+    default: Date.now
+  }
 })
 
-// Exporting Model
 module.exports = mongoose.model('Subscriber', subscriberSchema)
