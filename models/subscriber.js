@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 // Creating Model to interact with DB
 
 // Create Schema
-const subscriberSchema = new mongoose.Schema({
+const subscriberSchema = new Schema({
     name: {
         type: String,
         required: true
@@ -13,7 +14,6 @@ const subscriberSchema = new mongoose.Schema({
     },
     subscribedData: {
         type: Date,
-        required: true,
         default: Date.now
     }
 })
