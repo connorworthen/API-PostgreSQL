@@ -23,7 +23,7 @@ router.get('/:id', getUser, (req, res) => {
 // Creating one
 router.post('/', async (req, res) => {
     try {
-        const { first_name, last_name, email, password } = req.body;
+        const { firstName, lastName, email, password } = req.body;
 
         if (!(email && password && first_name && last_name)) {
             res.status(400).send("Please try again. Fill in all inputs.")
@@ -32,8 +32,8 @@ router.post('/', async (req, res) => {
         encryptedPassword = await bcrypt.hash(password, 10)
 
         const user = await User.create({
-            first_name,
-            last_name,
+            firstName,
+            lastName,
             email,
             password: encryptedPassword,
         })
@@ -51,39 +51,14 @@ router.post('/', async (req, res) => {
         }
 })
 
-// Login User
-router.post('/login', async (req, res) => {
-    try {
-        const { email, password } = req.body
-
-        if (!(email && password)) {
-            res.status(400).send("Please try again. Fill in all inputs.");
-        }
-        const user = await User.findOne({ email });
-
-        if (user && (await bcrypt.compare(password, user.password))) {
-
-            const token = jwt.sign({ user_id: user._id, email },
-            process.env.TOKEN_KEY,
-            {
-                expiresIn: "8h",
-            }
-        )
-        user.token = token;
-        res.status(200).json(user);
-    }} catch (err) {
-        res.status(400).json({ message: err.message })
-    }
-})
-
 // Updating One
 router.patch('/:id', getUser, async (req, res) => {
     // UPDATE: loop through to make faster
-    if (req.body.first_name != null) {
+    if (req.body.firstName != null) {
         res.user.first_name  = req.body.first_name
     }
-    if (req.body.last_name != null) {
-        res.user.last_name = req.body.last_name
+    if (req.body.lastName != null) {
+        res.user.lastName = req.body.last_name
     }
     if (req.body.email != null) {
         res.user.email = req.body.email
