@@ -3,6 +3,7 @@ const router = express.Router()
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require('../models/user')
+// const auth = require('./middleware/auth')
 
 // Getting all
 router.get('/', async (req, res) => {
@@ -40,7 +41,7 @@ router.post('/', async (req, res) => {
         const token = jwt.sign({ user_id: user._id, email },
             process.env.TOKEN_KEY,
             {
-                expiresIn: "2h",
+                expiresIn: "8h",
             })
             user.token = token
 
@@ -50,9 +51,34 @@ router.post('/', async (req, res) => {
         }
 })
 
+// Login User
+router.post('/login', async (req, res) => {
+    try {
+        const { email, password } = req.body
+
+        if (!(email && password)) {
+            res.status(400).send("Please try again. Fill in all inputs.");
+        }
+        const user = await User.findOne({ email });
+
+        if (user && (await bcrypt.compare(password, user.password))) {
+
+            const token = jwt.sign({ user_id: user._id, email },
+            process.env.TOKEN_KEY,
+            {
+                expiresIn: "8h",
+            }
+        )
+        user.token = token;
+        res.status(200).json(user);
+    }} catch (err) {
+        res.status(400).json({ message: err.message })
+    }
+})
+
 // Updating One
 router.patch('/:id', getUser, async (req, res) => {
-    // loop through to make faster
+    // UPDATE: loop through to make faster
     if (req.body.first_name != null) {
         res.user.first_name  = req.body.first_name
     }
