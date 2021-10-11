@@ -1,4 +1,5 @@
-NodeJS, Express & MongoDB Mock REST API
+NodeJS, Express & MongoDB Mock REST API.
+
 Used Insomnia for API testing, link: https://docs.insomnia.rest/
 
 ### Instructions
