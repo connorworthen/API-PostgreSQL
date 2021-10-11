@@ -4,18 +4,9 @@ const Schema = mongoose.Schema
 
 // Create Schema
 const subscriberSchema = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    subscribedToChannel: {
-        type: String,
-        required: true
-    },
-    subscribedData: {
-        type: Date,
-        default: Date.now
-    }
+    name: { type: String, required: true },
+    subscribedToChannel: { type: String, required: true },
+    subscribedData: { type: Date, default: Date.now}
 })
 
 // Exporting Model
