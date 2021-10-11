@@ -1,0 +1,23 @@
+{
+  "name": "NodeJS",
+  "version": "1.0.0",
+  "description": "NodeJS practice for developing REST API's",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/connorworthen/NodeJS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/connorworthen/NodeJS/issues"
+  },
+  "homepage": "https://github.com/connorworthen/NodeJS#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
