@@ -1,40 +1,35 @@
 const Joi = require('@hapi/joi');
 
 // Register Validation
-const registerValidation = data => {
-    const schema = {
-        firstName: Joi.string()
-            .required()
-            .min(3)
-            .max(16),
-        lastName: Joi.string()
-            .required()
-            .min(3)
-            .max(24),
-        email: Joi.string()
-            .required()
-            .email(),
-        password: Joi.string()
-            .required()
-            .min(8)
-            .max(24)
-    }
-    return Joi.valid(data, schema)
-}
+const registerSchema = Joi.object({
+    firstName: Joi.string()
+        .required()
+        .min(3)
+        .max(16),
+    lastName: Joi.string()
+        .required()
+        .min(3)
+        .max(24),
+    email: Joi.string()
+        .required()
+        .email(),
+    password: Joi.string()
+        .required()
+        .min(8)
+        .max(24)
+})
 
 // Login Validation
-const loginValidation = data => {
-    const schema = {
-        email: Joi.string()
-            .required()
-            .email(),
-        password: Joi.string()
-            .required()
-            .min(8)
-            .max(24)
-    }
-    return Joi.valid(data, schema)
-}
+const loginSchema = Joi.object({
+    email: Joi.string()
+        .required()
+        .email(),
+    password: Joi.string()
+        .required()
+        .min(8)
+        .max(24)
+})
 
-module.exports.registerValidation = registerValidation
-module.exports.loginValidation = loginValidation
+
+module.exports.registerSchema = registerSchema
+module.exports.loginSchema = loginSchema
