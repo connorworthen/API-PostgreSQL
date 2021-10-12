@@ -11,10 +11,14 @@ app.use(express.json())
 // Import Routes
 const authRoutes = require('./routes/auth')
 
+const postRoutes = require('./routes/posts')
+
 const subscribersRouter = require('./routes/subscribers')
 
 // Routes Middleware
 app.use('/api/user', authRoutes)
+
+app.use('/api/posts', postRoutes)
 
 app.use('/subscribers', subscribersRouter)
 
