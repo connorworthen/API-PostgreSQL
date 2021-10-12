@@ -1,14 +1,17 @@
 const mongoose = require('mongoose')
 
 const albumSchema = mongoose.Schema({
-    albumDetails: {
-        type: Map,
-        of: String,
-        required: true,
+    albumName: {
+        type: String,
+        required: [true, 'Album name is required']
     },
+    albumTracks: [{
+        type: String,
+        required: [true, 'Minimum of three tracks are required']
+    }],
     date: {
         type: Date,
-        default: Date.now,
+        default: Date.now
     }
 })
 

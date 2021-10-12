@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const songSchema = mongoose.Schema({
     songName: {
         type: String,
-        required: 'Album Name is required',
+        required: [true, 'Album Name is required']
     },
     date: {
         type: Date,
