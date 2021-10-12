@@ -6,6 +6,9 @@ router.post('/register', async (req, res) => {
     const { error } = registerSchema.validate(req.body)
     if (error) return res.status(400).send(error.details[0].message)
 
+    const emailExist = await User.findOne({email: req.body.email})
+    if (emailExist) return res.status(400).send('Email already exists. Please log in.')
+
     const user = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
