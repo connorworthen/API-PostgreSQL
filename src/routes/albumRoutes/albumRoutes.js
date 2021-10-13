@@ -1,5 +1,8 @@
 const AlbumService =  require("../../services/albumService")
-const router = require('express').Router();
+const verify = require('../../middleware/verifyToken')
+const express = require('express')
+const router = express.Router()
+router.use(verify)
 
 // Get all Albums
 router.get('/', async (req, res) => {

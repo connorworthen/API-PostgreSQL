@@ -1,11 +1,15 @@
-const verify = require('../middleware/verifyToken')
 const albumRoutes  = require('./albumRoutes/albumRoutes')
+const authRoutes  = require('./authRoutes/authRoutes')
 const express = require('express')
-const albumRouter = express.Router()
-albumRouter.use(verify)
+const verifyRouter = express.Router()
+const authRouter = express.Router()
+
 
 // Get all Albums
-albumRouter.use('/albums', albumRoutes)
+verifyRouter.use('/albums', albumRoutes)
+
+//register user
+authRouter.use('/register', authRoutes)
 
 // Get all one specific
 // router.get('/:id', verify, albumController)
@@ -19,4 +23,7 @@ albumRouter.use('/albums', albumRoutes)
 // Delete an Album
 // router.delete('/:id', verify, albumController)
 
-module.exports = albumRouter
+module.exports = [
+    verifyRouter,
+    authRouter
+]

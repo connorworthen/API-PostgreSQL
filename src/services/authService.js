@@ -1,17 +1,30 @@
 const User = require('../models/userModel/user');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { registerSchema, loginSchema } = require('../middleware/userValidation')
+const { saltedPassword } = require('../middleware/userValidation');
 
-const registerService = () => {
-    const { error } = registerSchema.validate(req.body)
-    if (error) return res.status(400).send(error.details[0].message)
-
-    const emailExist = await User.findOne({email: req.body.email})
-    if (emailExist) return res.status(400).send('Email already exists. Please log in.')
-
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(req.body.password, salt)
+const registerService = async (email) => {
+    try {
+        const emailExist = await User.findOne({email})
+        if (emailExist) return 'Email already exists. Please log in.'
+    } catch {
+        return 'auth service fail'
+    }
+    return null
 }
 
-module.exports.registerService = registerService
+const newInstanceAuth = async (firstName, lastName, email, password) => {
+    const user = new User({
+        firstName,
+        lastName,
+        email,
+        password: await saltedPassword(password)
+    })
+    try {
+        return await user.save()
+    } catch (err) {
+        return 'Error.'
+    }
+}
+
+module.exports = { registerService, newInstanceAuth }
