@@ -3,37 +3,10 @@ const User = require('../models/user');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { registerSchema, loginSchema } = require('../validations/userValidation')
+const { registerController } = require('../controllers/authController')
 
-// Register
-router.post('/register', async (req, res) => {
-    // Validate data before creating new instance of User
-    const { error } = registerSchema.validate(req.body)
-    if (error) return res.status(400).send(error.details[0].message)
-
-    // Checks if email exists
-    const emailExist = await User.findOne({email: req.body.email})
-    if (emailExist) return res.status(400).send('Email already exists. Please log in.')
-
-    // Salts and hashes password
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(req.body.password, salt)
-
-    // Creates new instance of User
-    const user = new User({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        password: hashedPassword
-    })
-    try {
-        // Saves user and sends back id & success message
-        const newUser = await user.save()
-        res.send({ user: user._id, message: 'Success! User account created.'})
-    } catch (err) {
-        // send back user side error w/ message
-        res.status(400).json({ message: err.message })
-    }
-})
+// Register Route
+router.post('/register', registerController)
 
 // Login
 router.post('/login', async (req, res) => {

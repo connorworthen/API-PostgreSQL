@@ -5,11 +5,11 @@ const { songSchema } = require('./song')
 const artistSchema = new mongoose.Schema({
     artistName: {
         type: String,
-        required: 'Artist name is required'
+        required: [true, 'Album name is required']
     },
     artistRecordLabel: {
         type: String,
-        required: 'Record Label is required'
+        required: [true, 'Album name is required']
     },
     artistDescription: {
         type: String,
