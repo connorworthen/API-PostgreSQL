@@ -17,14 +17,3 @@ const registerController = async (req, res, next) => {
 
 module.exports.registerController = registerController
 
-
-async function registerController (req, res) {
-    const httpRequest = adaptRequest(req)
-    handleRegisterRequest(httpRequest)
-    try {
-        return res.send({ user: user._id, message: 'Success! User account created.'})
-    } catch (err) {
-        return res.status(400).json({ message: err.message })
-    }
-}
-
