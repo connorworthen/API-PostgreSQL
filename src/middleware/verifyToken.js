@@ -7,7 +7,7 @@ module.exports = function(req, res, next) {
     if (!token) return res.status(401).send('Access Denied. Please log in.')
 
     try {
-        const verified = jwt.verify(token, config.TOKEN_SECRET)
+        const verified = jwt.verify(token, config.TOKEN_KEY)
         req.emailCheck = verified
     } catch (err) {
         return res.status(401).send('Invalid Token')

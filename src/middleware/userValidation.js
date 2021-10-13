@@ -25,6 +25,23 @@ const registerValidation = async (body) => {
     }
 }
 
+const loginValidation = async (body) => {
+    const loginSchema = Joi.object({
+        email: Joi.string()
+            .required()
+            .email(),
+        password: Joi.string()
+            .required()
+            .min(8)
+            .max(24)
+    })
+    try {
+        return await loginSchema.validate(body)
+    } catch (err) {
+        return 'Login Validation Failed'
+    }
+}
+
 const saltedPassword = async (password) => {
     try {
         const salt = await bcrypt.genSalt(10)
@@ -33,17 +50,5 @@ const saltedPassword = async (password) => {
         return 'error password'
     }
 }
-// Register Validation
-module.exports = { registerValidation, saltedPassword}
-// Login Validation
-// const loginSchema = Joi.object({
-//     email: Joi.string()
-//         .required()
-//         .email(),
-//     password: Joi.string()
-//         .required()
-//         .min(8)
-//         .max(24)
-// })
 
-// module.exports.loginSchema = loginSchema
+module.exports = { registerValidation, loginValidation, saltedPassword }

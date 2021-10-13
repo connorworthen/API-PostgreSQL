@@ -1,6 +1,4 @@
 const User = require('../models/userModel/user');
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const { saltedPassword } = require('../middleware/userValidation');
 
 const registerService = async (email) => {

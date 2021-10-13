@@ -1,17 +1,15 @@
 const router = require('express').Router();
-const User = require('../../models/userModel/user');
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const { registerValidation } = require('../../middleware/userValidation');
+const { registerValidation, loginValidation } = require('../../middleware/userValidation');
 const { registerService, newInstanceAuth } = require('../../services/authService');
+const { passwordCheck, jwtAuth } = require('../../utils/utils')
 
 // Register Route
-router.post('/', async (req, res) => {
+router.post('/account', async (req, res) => {
     const {firstName, lastName, email, password} = req.body
     const validation = await registerValidation(req.body)
     const emailCheck = await registerService(email)
     if (validation.error || emailCheck) {
-        return res.status(400).send('failed add messages')
+        return res.status(400).send('Failed to Register Account')
     } else {
         const user = await newInstanceAuth(firstName, lastName, email, password)
         return res.send({ user: user._id, message: 'Success! User account created.'})
@@ -20,6 +18,24 @@ router.post('/', async (req, res) => {
 
 
 // Login
+router.post('/', async (req, res) => {
+    const {email, password} = req.body
+    const validation = await loginValidation(req.body)
+    const emailCheck = await registerService(email)
+    const validPassword = await passwordCheck(req.body)
+    if (validation.error || !emailCheck || !validPassword) {
+        return res.status(400).send('Login Failed')
+    } else {
+        // const token = await jwtAuth()
+        // return res.header('auth-token', token)
+        return res.status(201).send('success')
+    }
+})
+
+module.exports = router
+
+
+
 // router.post('/login', async (req, res) => {
 //     // Validate data before creating logging in User
 //     const { error } = loginSchema.validate(req.body)
@@ -41,5 +57,3 @@ router.post('/', async (req, res) => {
 
 //     res.send({ message: 'Success! Logged in.', token})
 // })
-
-module.exports = router
