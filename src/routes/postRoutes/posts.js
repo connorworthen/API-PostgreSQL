@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const verify = require('../middleware/verifyToken')
+const verify = require('../../middleware/verifyToken')
 
 // Test route that uses verify as middleware to created private routes based off JWT auth
 router.get('/', verify, (req, res) => {

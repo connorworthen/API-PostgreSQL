@@ -1,9 +1,9 @@
 const router = require('express').Router();
-const User = require('../models/user');
+const User = require('../../models/userModel/user');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { registerSchema, loginSchema } = require('../validations/userValidation')
-const { registerController } = require('../controllers/authController')
+const { registerSchema, loginSchema } = require('../../middleware/userValidation')
+const { registerController } = require('../../controllers/authController/authController')
 
 // Register Route
 router.post('/register', registerController)

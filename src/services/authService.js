@@ -1,7 +1,7 @@
-const User = require('../models/user');
+const User = require('../models/userModel/user');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { registerSchema, loginSchema } = require('../validations/userValidation')
+const { registerSchema, loginSchema } = require('../middleware/userValidation')
 
 const registerService = () => {
     const { error } = registerSchema.validate(req.body)

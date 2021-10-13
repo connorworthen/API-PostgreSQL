@@ -1,11 +1,6 @@
-const User = require('../models/user');
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const { registerSchema, loginSchema } = require('../validations/userValidation')
 // const { registerService } = require('../services/authService')
 
-const registerController = async (req, res) => {
-
+const registerController = async (req, res, next) => {
     const user = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -13,7 +8,6 @@ const registerController = async (req, res) => {
         password: hashedPassword
     })
     try {
-        const
         const newUser = await user.save()
         return res.send({ user: user._id, message: 'Success! User account created.'})
     } catch (err) {
@@ -22,3 +16,15 @@ const registerController = async (req, res) => {
 }
 
 module.exports.registerController = registerController
+
+
+async function registerController (req, res) {
+    const httpRequest = adaptRequest(req)
+    handleRegisterRequest(httpRequest)
+    try {
+        return res.send({ user: user._id, message: 'Success! User account created.'})
+    } catch (err) {
+        return res.status(400).json({ message: err.message })
+    }
+}
+
