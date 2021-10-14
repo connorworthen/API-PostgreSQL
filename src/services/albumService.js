@@ -1,13 +1,13 @@
 const Album = require('../models/albumModel/album')
 
-// const allAlbumsService = async => {
-//     try {
-//         const album = await Album.find()
-//         return album
-//     } catch (err) {
-//         return 'Not Possible'
-//     }
-// }
+const allAlbumsService = async () => {
+    try {
+        const album = await Album.find()
+        return 'got all albums'
+    } catch (err) {
+        return 'Not Possible'
+    }
+}
 
 // const createAlbumService = async ({email}) => {
 //     try {
@@ -18,7 +18,7 @@ const Album = require('../models/albumModel/album')
 //     }
 // }
 
-// module.exports = {
-//     allAlbumsService
+module.exports = {
+    allAlbumsService
     // createAlbumService
-// }
+}
