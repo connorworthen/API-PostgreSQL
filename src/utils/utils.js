@@ -2,10 +2,9 @@ const User = require('../models/userModel/user')
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const passwordCheck = async (email, password) => {
+const passwordCheck = async (password, passwordAuth) => {
     try {
-        const user = await User.find({email})
-        const validPassword = await bcrypt.compare(password, user.password)
+        const validPassword = await bcrypt.compare(password, passwordAuth)
         if (!validPassword) return 'Invalid password. Please try again.'
     } catch (err) {
         return 'Password Auth Failed'
@@ -13,18 +12,15 @@ const passwordCheck = async (email, password) => {
     return null
 }
 
-// const jwtAuth = async () => {
-//     if (passwordCheck) {
-//         const token = jwt.sign(
-//             { user_id: User._id, email },
-//             process.env.TOKEN_KEY,
-//             {
-//                 expiresIn: "8h",
-//             }
-//         )
-//         User.token = token
-//         return token
-//     }
-// }
+const jwtToken = async (id) => {
+        const token = jwt.sign(
+            { user_id: id },
+            process.env.TOKEN_KEY,
+            {
+                expiresIn: "8h",
+            }
+        )
+        return token
+}
 
-module.exports = { passwordCheck }
+module.exports = { passwordCheck , jwtToken }
