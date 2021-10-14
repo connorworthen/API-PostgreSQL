@@ -18,13 +18,13 @@ verifyRouter.use('/albums', albumRoutes)
 //register user
 
 // Get all one specific
-// router.get('/:id', verify, albumController)
+verifyRouter.get('/:id', albumRoutes)
 
 // Create Album
-// albumRouter.post('/', verify, albumController.createAlbum)
+verifyRouter.post('/albums', albumRoutes)
 
 // Update an Album
-// router.patch('/:id', verify, albumController)
+verifyRouter.patch('/:id', verify, albumRoutes)
 
 // Delete an Album
 // router.delete('/:id', verify, albumController)
