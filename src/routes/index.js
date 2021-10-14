@@ -4,14 +4,16 @@ const express = require('express')
 const verifyRouter = express.Router()
 const authRouter = express.Router()
 
+// Register User
+authRouter.use('/register', authRoutes)
+
+// Login User
+authRouter.use('/login', authRoutes)
 
 // Get all Albums
 verifyRouter.use('/albums', albumRoutes)
 
 //register user
-authRouter.use('/register', authRoutes)
-
-authRouter.use('/login', authRoutes)
 
 // Get all one specific
 // router.get('/:id', verify, albumController)

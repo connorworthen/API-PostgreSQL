@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     try {
         // const albums = await AlbumService.allAlbumsService
         // return res.status(201).send()
-        return 'you have reach all albums'
+        return res.status(201).send('you have reached the index of all albums')
     } catch (err) {
         return res.status(400).json({ message: err.message })
     }
