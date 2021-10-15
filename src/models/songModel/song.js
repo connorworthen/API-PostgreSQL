@@ -1,6 +1,7 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose")
+const Schema = mongoose.Schema
 
-const songSchema = mongoose.Schema({
+const songSchema = Schema({
     songName: {
         type: String,
         required: [true, 'Album Name is required']

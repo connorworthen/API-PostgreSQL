@@ -3,31 +3,38 @@ const Schema = mongoose.Schema
 
 const albumSchema = new Schema({
     name: {
-        type: String
+        type: String,
+        required: true,
     },
     tracks: [{
-        type: String
+        type: String,
+        required: true,
     }]
 })
 
 const songSchema = new Schema({
     name: {
-        type: String
+        type: String,
+        required: true,
     }
 })
 
 const artistSchema = new Schema({
     name: {
-        type: String
+        type: String,
+        required: true,
     },
     age: {
-        type: Number
+        type: Number,
+        required: true,
     },
     recordLabel: {
-        type: String
+        type: String,
+        required: true,
     },
     description: {
-        type: String
+        type: String,
+        required: true,
     },
     albums: [albumSchema],
     songs: [songSchema]
