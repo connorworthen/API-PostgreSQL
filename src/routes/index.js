@@ -1,6 +1,6 @@
 const albumRoutes  = require('./albumRoutes/albumRoutes')
 const authRoutes = require('./authRoutes/authRoutes')
-const userRoutes = require('./userRoutes/users')
+const userRoutes = require('./userRoutes/userRoutes')
 const songRoutes = require('./songRoutes/songRoutes')
 const artistRoutes = require('./artistRoutes/artistRoutes')
 
