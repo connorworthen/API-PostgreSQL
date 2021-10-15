@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
-const { albumSchema } = require('./album')
-const { songSchema } = require('../songModel/song')
+const albumSchema = require('../albumModel/album')
+const songSchema = require('../songModel/song')
+const Schema = mongoose.Schema
 
-const artistSchema = new mongoose.Schema({
+const artistSchema = new Schema({
     artistName: {
         type: String,
         required: [true, 'Album name is required']
@@ -17,12 +18,10 @@ const artistSchema = new mongoose.Schema({
         max: 1024
     },
     artistAlbum: {
-        type: albumSchema,
-        required: false
+        type: [{ type: Schema.Types.ObjectId, ref: albumSchema }]
     },
     artistSong: {
-        type: songSchema,
-        required: false
+        type: [{ type: Schema.Types.ObjectId, ref: songSchema }]
     }
 })
 
