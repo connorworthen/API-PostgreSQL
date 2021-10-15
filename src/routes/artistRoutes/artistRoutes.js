@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { allArtistsService, oneArtistService, createArtistService } = require('../../services/artistService')
+const { allArtistsService, oneArtistService, createArtistService, updateArtistService, deleteArtistService } = require('../../services/artistService')
 const newArtistService = require('../../middleware/artistValidation')
 
 // Get all Artists
@@ -32,6 +32,27 @@ router.post('/', async (req, res) => {
     } else {
         const newArtist = await createArtistService(name, age, recordLabel, description, albums, songs)
         return res.status(201).send(newArtist)
+    }
+})
+
+// Update Artist
+router.patch('/:id', async (req, res) => {
+    const updatedArtist = req.body
+    const patchedArtist = await updateArtistService(updatedArtist, req.params.id)
+    try {
+        return res.status(200).send({patchedArtist})
+    } catch (err) {
+        return res.status(500).send({ message: err.message })
+    }
+})
+
+// Delete Artist
+router.delete('/:id', async (req, res) => {
+    const deleteArtist = await deleteArtistService(req.params.id)
+    try {
+        return res.status(200).send({ message:'Song has been deleted'})
+    } catch (err) {
+        return res.status(500).send({ message: err.message })
     }
 })
 

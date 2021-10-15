@@ -33,8 +33,30 @@ const createArtistService = async (name, age, recordLabel, description, albums, 
         return 'Artist service failed'
     }
 }
+
+const updateArtistService = async (updatedArtist, id) => {
+    const patch = await Artist.updateMany({_id  : id}, {$set: updatedArtist})
+    try {
+        return patch
+    } catch (err) {
+        return 'Artist service failed'
+    }
+}
+
+const deleteArtistService = async (id) => {
+    const deleteArtist = await Artist.deleteMany({_id  : id})
+    try {
+        return deleteArtist
+    } catch (err) {
+        return 'Artist service failed'
+    }
+}
+
+
 module.exports = {
     allArtistsService,
     oneArtistService,
-    createArtistService
+    createArtistService,
+    updateArtistService,
+    deleteArtistService,
 }
