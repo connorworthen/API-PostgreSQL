@@ -1,5 +1,6 @@
 const albumRoutes  = require('./albumRoutes/albumRoutes')
 const authRoutes = require('./authRoutes/authRoutes')
+const userRoutes = require('./userRoutes/users')
 const songRoutes = require('./songRoutes/songRoutes')
 const artistRoutes = require('./artistRoutes/artistRoutes')
 
@@ -14,6 +15,8 @@ authRouter.use('/register', authRoutes)
 
 authRouter.use('/login', authRoutes)
 
+verifyRouter.use('/users', userRoutes)
+
 verifyRouter.use('/albums', albumRoutes)
 
 verifyRouter.use('/songs', songRoutes)
@@ -21,6 +24,6 @@ verifyRouter.use('/songs', songRoutes)
 verifyRouter.use('/artists', artistRoutes)
 
 module.exports = [
-    verifyRouter,
-    authRouter
+    authRouter,
+    verifyRouter
 ]

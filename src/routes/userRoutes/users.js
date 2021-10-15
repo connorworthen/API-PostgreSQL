@@ -1,102 +1,25 @@
-const express = require('express')
-const router = express.Router()
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const User = require('../../models/userModel/user')
-// const auth = require('./middleware/auth')
+const router = require('express').Router();
+const { updateUser, deleteUser } = require('../../services/userServices')
 
-// Getting all
-router.get('/', async (req, res) => {
+// Update User
+router.patch('/:id', async (req, res) => {
+    const user = req.body
+    const updatedUser = await updateUser(user, req.params.id)
     try {
-        const users = await User.find()
-        res.json(users)
-    } catch (err) {
-        res.status(500).json({ message: err.message })
-    }
-})
-
-// Getting One
-router.get('/:id', getUser, (req, res) => {
-    res.json(res.user)
-})
-
-// Creating one
-router.post('/', async (req, res) => {
-    try {
-        const { firstName, lastName, email, password } = req.body;
-
-        if (!(email && password && first_name && last_name)) {
-            res.status(400).send("Please try again. Fill in all inputs.")
-        }
-
-        encryptedPassword = await bcrypt.hash(password, 10)
-
-        const user = await User.create({
-            firstName,
-            lastName,
-            email,
-            password: encryptedPassword,
-        })
-
-        const token = jwt.sign({ user_id: user._id, email },
-            process.env.TOKEN_KEY,
-            {
-                expiresIn: "8h",
-            })
-            user.token = token
-
-            res.status(201).json(user)
-        } catch (err) {
-            res.status(400).json({ message: err.message })
-        }
-})
-
-// Updating One
-router.patch('/:id', getUser, async (req, res) => {
-    // UPDATE: loop through to make faster
-    if (req.body.firstName != null) {
-        res.user.first_name  = req.body.first_name
-    }
-    if (req.body.lastName != null) {
-        res.user.lastName = req.body.last_name
-    }
-    if (req.body.email != null) {
-        res.user.email = req.body.email
-    }
-    if (req.body.password != null) {
-        encryptedPassword = await bcrypt.hash(req.body.password, 10)
-        res.user.password = encryptedPassword
-    }
-    try {
-        const updatedUser = await res.user.save()
-        res.json(updatedUser)
-    } catch (err) {
-        res.status(400).json({ message: err.message })
-    }
-})
-
-// Deleting One
-router.delete('/:id', getUser, async (req, res) => {
-    try {
-        await res.user.remove()
-        res.json({ message: 'Deleted User' })
-    } catch (err) {
-        res.status(500).json({ message: err.message })
-    }
-})
-
-async function getUser(req, res, next) {
-    let user
-    try {
-        user = await User.findById(req.params.id)
-        if (user == null) {
-            return res.status(404).json({ message: 'Cannot find user' })
-        }
+        return res.status(200).json({updatedUser})
     } catch (err) {
         return res.status(500).json({ message: err.message })
     }
-    res.user = user
-    next()
-}
+})
+
+// Delete User
+router.delete('/:id', async (req, res) => {
+    const user = await deleteUser(req.params.id)
+    try {
+        return res.status(200).json({ message: 'User deleted successfully'})
+    } catch (err) {
+        return res.status(500).json({ message: err.message })
+    }
+})
 
 module.exports = router
