@@ -18,16 +18,16 @@ const oneArtistService = async (id) => {
     }
 }
 
-const createArtistService = async (artistName, artistRecordLabel, artistDescription, artistAlbum, artistSong) => {
+const createArtistService = async (name, age, recordLabel, description, albums, songs) => {
     const artist = await Artist({
-        artistName,
-        artistRecordLabel,
-        artistDescription,
-        artistAlbum,
-        artistSong
+            name,
+            age,
+            recordLabel,
+            description,
+            albums,
+            songs
     })
     try {
-        console.log(artist)
         return await artist.save()
     } catch (err) {
         return 'Artist service failed'

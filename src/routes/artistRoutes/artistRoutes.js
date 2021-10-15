@@ -24,12 +24,13 @@ router.get('/:id', async (req, res) => {
 
 // Create a new Artist
 router.post('/', async (req, res) => {
-    const {artistName, artistRecordLabel, artistDescription, artistAlbum, artistSong} = req.body
-    const validateData = await newArtistService(req.body)
+    const artistData = req.body
+    const {name, age, recordLabel, description, albums, songs} = req.body
+    const validateData = await newArtistService(artistData)
     if (validateData.error) {
-        return res.status(400).json({ message: 'Failed to create artist'})
+        return res.status(400).json({ message: 'Failed to create artist' })
     } else {
-        const newArtist = await createArtistService(artistName, artistRecordLabel, artistDescription, artistAlbum, artistSong)
+        const newArtist = await createArtistService(name, age, recordLabel, description, albums, songs)
         return res.status(201).send(newArtist)
     }
 })
