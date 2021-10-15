@@ -4,7 +4,7 @@ const newAlbumService = async (body) => {
     const newAlbumSchema = Joi.object({
         albumName: Joi.string()
             .min(3)
-            .max(30)
+            .max(24)
             .required(),
         albumTracks: Joi.array()
             .items(

@@ -1,7 +1,6 @@
 const { allAlbumsService, createAlbumService, oneAlbumService, patchAlbumService, deletedAlbumService } = require("../../services/albumService")
 const newAlbumService = require("../../middleware/albumValidation")
-const express = require('express')
-const router = express.Router()
+const router = require('express').Router()
 
 // Get all Albums
 router.get('/', async (req, res) => {
