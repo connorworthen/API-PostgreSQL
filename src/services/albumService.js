@@ -1,8 +1,8 @@
-const Album = require('../models/albumModel/album')
+const Album = require('../models/artistModel/artist')
 
 const allAlbumsService = async () => {
     try {
-        const album = await Album.find()
+        const album = await Album.find();
         return album
     } catch (err) {
         return 'Not Possible'
