@@ -10,6 +10,15 @@ const allArtistAlbum = async (id) => {
     }
 }
 
+const oneAlbum = async (id, albumId) => {
+    try {
+        const album = await artistModel.findById({_albumId: albumId})
+        return album
+    } catch (err) {
+        return 'failed to get one album'
+    }
+}
+
 const albumService = async (name, tracks, id) => {
     const album = await albumModel({ name, tracks })
     try {
@@ -35,5 +44,6 @@ const updateArtistAlbum  = async (updatedArtist, id) => {
 module.exports = {
     allArtistAlbum,
     albumService,
+    oneAlbum,
     updateArtistAlbum
 }
