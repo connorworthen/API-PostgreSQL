@@ -1,8 +1,8 @@
-const Artist = require('../models/artistModel/artist')
+const { artistModel } = require('../models/artistModel/artist')
 
 const allArtistsService = async () => {
     try {
-        const artists = await Artist.find()
+        const artists = await artistModel.find()
         return artists
     } catch (err) {
         return 'Artist service failed'
@@ -11,7 +11,7 @@ const allArtistsService = async () => {
 
 const oneArtistService = async (id) => {
     try {
-        const artist = await Artist.findById({_id: id})
+        const artist = await artistModel.findById({_id: id})
         return artist
     } catch (err) {
         return 'Artist service failed'
@@ -19,7 +19,7 @@ const oneArtistService = async (id) => {
 }
 
 const createArtistService = async (name, age, recordLabel, description, albums, songs) => {
-    const artist = await Artist({
+    const artist = await artistModel({
             name,
             age,
             recordLabel,
@@ -35,7 +35,7 @@ const createArtistService = async (name, age, recordLabel, description, albums, 
 }
 
 const updateArtistService = async (updatedArtist, id) => {
-    const patch = await Artist.updateMany({_id  : id}, {$set: updatedArtist})
+    const patch = await artistModel.updateMany({_id  : id}, {$set: updatedArtist})
     try {
         return patch
     } catch (err) {
@@ -44,7 +44,7 @@ const updateArtistService = async (updatedArtist, id) => {
 }
 
 const deleteArtistService = async (id) => {
-    const deleteArtist = await Artist.deleteMany({_id  : id})
+    const deleteArtist = await artistModel.deleteMany({_id  : id})
     try {
         return deleteArtist
     } catch (err) {

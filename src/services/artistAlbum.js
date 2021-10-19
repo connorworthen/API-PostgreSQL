@@ -23,9 +23,8 @@ const allArtistAlbum = async (id) => {
 const albumService = async (name, tracks, id) => {
     const album = await albumModel({ name, tracks })
     try {
-        const artistData = await artistModel.findById({_id: id})
-        const newAlbum = await artistData.push(album)
-        return await newAlbum.save()
+        const updatedAlbum = await artistModel.findOneAndUpdate({_id: id}, {$push: {albums: album}})
+        return updatedAlbum
     } catch (err) {
         return {error: err}
     }

@@ -22,12 +22,12 @@ router.get('/:id/albums', async (req, res) => {
 
 router.post('/:id/:albums', async (req, res) => {
     const { name, tracks } = req.body
-    const validation = await validateAlbum(req.body, req.params.id)
+    const validation = await validateAlbum(req.body)
     if (validation.error) {
         return res.status(400).json({ message: 'Failed to create'})
     } else {
-        const newAlbum = await albumService(name, tracks)
-        return res.status(200).send(newAlbum)
+        const newAlbum = await albumService(name, tracks, req.params.id)
+        return res.status(201).send(newAlbum)
     }
 })
 
