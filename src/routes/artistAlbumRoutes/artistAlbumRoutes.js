@@ -33,12 +33,12 @@ router.post('/:id/:albums', async (req, res) => {
 
 router.patch('/:id/:albums/:albumId', async (req, res) => {
     const { name, tracks } = req.body
-    console.log(req)
-    const patchedAlbum = await updateArtistAlbum(req.body, req.params.id)
     try {
+        const patchedAlbum = await updateArtistAlbum(req.body, req.params.id)
         return res.status(200).send({patchedAlbum})
     } catch (err) {
-        return res.status(401).send({ message: err.message })
+        console.log(err)
+        return res.status(err.code).send(err);
     }
 })
 
