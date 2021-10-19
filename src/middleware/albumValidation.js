@@ -1,25 +1,24 @@
 const Joi = require('@hapi/joi')
 
-const newAlbumService = async (body) => {
-    const newAlbumSchema = Joi.object({
-        albumName: Joi.string()
+const validateAlbum = async (body) => {
+    const validateSchema = Joi.object({
+        name: Joi.string()
             .min(3)
             .max(24)
             .required(),
-        albumTracks: Joi.array()
+        tracks: Joi.array()
             .items(
                 Joi.string()
                     .required(),
                 Joi.string()
-                    .required(),
-                Joi.number(),
+                    .required()
             )
     })
     try {
-        return await newAlbumSchema.validate(body)
+        return await validateSchema.validate(body)
     } catch (err) {
-        return 'Album Validation Failed'
+        return 'hello'
     }
 }
 
-module.exports = newAlbumService
+module.exports = validateAlbum

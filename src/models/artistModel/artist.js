@@ -40,4 +40,10 @@ const artistSchema = new Schema({
     songs: [songSchema]
 })
 
-module.exports = mongoose.model('Artist', artistSchema);
+const albumModel = mongoose.model('Album', albumSchema)
+const artistModel = mongoose.model('Artist', artistSchema)
+module.exports = {
+    albumModel,
+    artistModel
+}
+// module.exports = mongoose.model('Artist', artistSchema);
