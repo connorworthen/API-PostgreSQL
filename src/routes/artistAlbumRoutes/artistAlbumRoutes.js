@@ -1,5 +1,5 @@
 const router= require('express').Router()
-const  { allArtistAlbum, albumService } = require('../../services/artistAlbum')
+const  { allArtistAlbum, albumService, updateArtistAlbum } = require('../../services/artistAlbum')
 const validateAlbum = require('../../middleware/albumValidation')
 // Get all Artist Albums
 router.get('/:id/albums', async (req, res) => {
@@ -11,15 +11,6 @@ router.get('/:id/albums', async (req, res) => {
     }
 })
 
-// router.get('/:id/albums:/:id', async (req, res) => {
-//     try {
-//         const artist = await oneArtistAlbum(req.params.id)
-//         return res.status(200).send({artist})
-//     } catch (err) {
-//         return res.status(400).send({message: err.message})
-//     }
-// })
-
 router.post('/:id/:albums', async (req, res) => {
     const { name, tracks } = req.body
     const validation = await validateAlbum(req.body)
@@ -28,6 +19,16 @@ router.post('/:id/:albums', async (req, res) => {
     } else {
         const newAlbum = await albumService(name, tracks, req.params.id)
         return res.status(201).send(newAlbum)
+    }
+})
+
+router.patch('/:id/:albums/:id', async (req, res) => {
+    const { name, tracks } = req.body
+    const patchedAlbum = await updateArtistAlbum(req.body, req.params.id)
+    try {
+        return res.status(200).send({patchedAlbum})
+    } catch (err) {
+        return res.status(401).send({ message: err.message })
     }
 })
 

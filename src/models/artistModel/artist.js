@@ -9,15 +9,23 @@ const albumSchema = new Schema({
     tracks: [{
         type: String,
         required: true,
-    }]
-})
+    }],
+    _albumId: {
+        type: mongoose.Types.ObjectId,
+        auto: true
+    }
+}, {_id: false})
 
 const songSchema = new Schema({
     name: {
         type: String,
         required: true,
+    },
+    _songId: {
+        type: mongoose.Types.ObjectId,
+        auto: true
     }
-})
+}, {_id: false})
 
 const artistSchema = new Schema({
     name: {

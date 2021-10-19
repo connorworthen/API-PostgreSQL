@@ -10,16 +10,6 @@ const allArtistAlbum = async (id) => {
     }
 }
 
-// const oneArtistAlbum = async (id) => {
-//     try {
-//         const artist = await Artist.findById({_id: id});
-//         console.log(artist)
-//         return artist.album
-//     } catch (err) {
-//         return 'failed'
-//     }
-// }
-
 const albumService = async (name, tracks, id) => {
     const album = await albumModel({ name, tracks })
     try {
@@ -30,9 +20,20 @@ const albumService = async (name, tracks, id) => {
     }
 }
 
+const updateArtistAlbum  = async (updatedArtist, id) => {
+    const artist = await artistModel.findById({_id: id})
+    const patch = await artistModel.updateMany({_id  : id}, {$set: updatedArtist})
+    try {
+        return patch
+    } catch (err) {
+        return 'Artist service failed'
+    }
+}
+
 
 
 module.exports = {
     allArtistAlbum,
-    albumService
+    albumService,
+    updateArtistAlbum
 }
