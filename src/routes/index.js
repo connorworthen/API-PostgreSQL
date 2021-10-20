@@ -18,13 +18,13 @@ authRouter.use('/login', authRoutes)
 
 verifyRouter.use('/users', userRoutes)
 
-verifyRouter.use('/albums', albumRoutes)
+// verifyRouter.use('/albums', albumRoutes)
 
 verifyRouter.use('/songs', songRoutes)
 
 verifyRouter.use('/artists', artistRoutes)
 
-verifyRouter.use('/artist',  artistAlbumRoutes)
+verifyRouter.use('/albums',  artistAlbumRoutes)
 
 module.exports = [
     authRouter,

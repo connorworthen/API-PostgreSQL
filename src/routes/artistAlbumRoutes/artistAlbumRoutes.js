@@ -1,6 +1,18 @@
 const router= require('express').Router()
 const  { allArtistAlbum, albumService, oneAlbum, updateArtistAlbum } = require('../../services/artistAlbum')
+const { allAlbumsService, createAlbumService, oneAlbumService, patchAlbumService, deletedAlbumService } = require("../../services/albumService")
 const validateAlbum = require('../../middleware/albumValidation')
+
+// Get all Albums
+router.get('/', async (req, res) => {
+    try {
+        const albums = await allAlbumsService()
+        return res.status(201).send({albums})
+    } catch (err) {
+        return res.status(400).json({ message: err.message })
+    }
+})
+
 // Get all Artist Albums
 router.get('/:id/albums', async (req, res) => {
     try {
