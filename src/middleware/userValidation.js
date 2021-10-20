@@ -1,4 +1,5 @@
 const Joi = require('@hapi/joi');
+const bcrypt = require('bcrypt');
 
 const registerValidation = async (body) => {
     const registerSchema = Joi.object({

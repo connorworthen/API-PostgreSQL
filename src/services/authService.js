@@ -19,6 +19,7 @@ const newInstanceAuth = async (firstName, lastName, email, password) => {
         email,
         password: await saltedPassword(password)
     })
+    console.log(user)
     try {
         return await user.save()
     } catch (err) {

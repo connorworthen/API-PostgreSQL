@@ -6,10 +6,10 @@ const passwordCheck = async (password, passwordAuth) => {
     try {
         const validPassword = await bcrypt.compare(password, passwordAuth)
         if (!validPassword) return 'Invalid password. Please try again.'
+        // message in auth routes
     } catch (err) {
         return 'Password Auth Failed'
     }
-    return null
 }
 
 const jwtToken = async (id) => {
