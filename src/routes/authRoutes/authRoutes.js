@@ -13,9 +13,15 @@ router.post('/new', async (req, res) => {
         return res.status(400).send('Failed to Register Account')
     } else {
         const user = await newInstanceAuth(firstName, lastName, email, password)
-        return res.send({ user: user._id, message: 'Success! User account created.'})
+        if (user.code > 299) {
+            return res.send('Failed to create new instance of user')
+       } else {
+            return res.send({ user: user._id, message: 'Success! User account created.'})
+        }
     }
 })
+
+
 
 
 // Login

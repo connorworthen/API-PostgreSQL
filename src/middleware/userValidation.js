@@ -1,5 +1,6 @@
 const Joi = require('@hapi/joi');
 const bcrypt = require('bcrypt');
+const { fourHundred } = require('../utils/errorHandling')
 
 const registerValidation = async (body) => {
     const registerSchema = Joi.object({
@@ -48,7 +49,7 @@ const saltedPassword = async (password) => {
         const salt = await bcrypt.genSalt(10)
         return await bcrypt.hash(password, salt)
     } catch (err) {
-        return 'error password'
+        return fourHundred(err.message)
     }
 }
 

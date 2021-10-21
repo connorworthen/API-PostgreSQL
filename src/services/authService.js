@@ -1,6 +1,7 @@
 const User = require('../models/userModel/user');
 const { saltedPassword } = require('../middleware/userValidation');
 const { jwtToken } = require('../utils/utils')
+const {fourHundred} = require("../utils/errorHandling");
 
 const registerService = async (email) => {
     try {
@@ -19,11 +20,10 @@ const newInstanceAuth = async (firstName, lastName, email, password) => {
         email,
         password: await saltedPassword(password)
     })
-    console.log(user)
     try {
         return await user.save()
     } catch (err) {
-        return 'Error.'
+        return fourHundred(err.message)
     }
 }
 
