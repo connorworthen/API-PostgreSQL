@@ -20,7 +20,7 @@ const newInstanceAuth = async (firstName, lastName, email, password) => {
 const registerService = async (email) => {
     const getEmail = await User.findOne({email})
     if (getEmail !== null) return getEmail
-    if (getEmail === null) return loginError()
+    return loginError()
 }
 
 const jwtAuth = async (email) => {

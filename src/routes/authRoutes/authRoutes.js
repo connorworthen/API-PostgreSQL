@@ -1,8 +1,7 @@
 const router = require('express').Router();
 const { registerValidation, loginValidation } = require('../../middleware/userValidation');
-const { registerService, newInstanceAuth, jwtAuth  } = require('../../services/authService');
+const { registerService, newInstanceAuth  } = require('../../services/authService');
 const { passwordCheck } = require('../../utils/utils')
-const User = require('../../models/userModel/user');
 
 // Register Route
 router.post('/new', async (req, res) => {

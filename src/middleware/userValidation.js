@@ -1,7 +1,6 @@
 const Joi = require('@hapi/joi');
 const bcrypt = require('bcrypt');
-const { fourHundred, loginError, passwordError} = require('../utils/errorHandling')
-const User = require("../models/userModel/user");
+const { fourHundred, passwordError} = require('../utils/errorHandling')
 
 const registerValidation = async (body) => {
     const registerSchema = Joi.object({
