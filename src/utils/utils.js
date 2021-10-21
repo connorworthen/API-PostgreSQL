@@ -1,15 +1,11 @@
-const User = require('../models/userModel/user')
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const {passwordError} = require("../utils/errorHandling");
+const {jwtAuth} = require("../services/authService");
 
-const passwordCheck = async (password, passwordAuth) => {
-    try {
-        const validPassword = await bcrypt.compare(password, passwordAuth)
-        if (!validPassword) return 'Invalid password. Please try again.'
-        // message in auth routes
-    } catch (err) {
-        return 'Password Auth Failed'
-    }
+const passwordCheck = async (password, comparePassword) => {
+    const validPassword = await bcrypt.compare(password, comparePassword)
+    if (validPassword) return passwordError()
 }
 
 const jwtToken = async (id) => {

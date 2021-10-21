@@ -1,6 +1,7 @@
 const Joi = require('@hapi/joi');
 const bcrypt = require('bcrypt');
-const { fourHundred } = require('../utils/errorHandling')
+const { fourHundred, loginError, passwordError} = require('../utils/errorHandling')
+const User = require("../models/userModel/user");
 
 const registerValidation = async (body) => {
     const registerSchema = Joi.object({
@@ -37,11 +38,8 @@ const loginValidation = async (body) => {
             .min(8)
             .max(24)
     })
-    try {
-        return await loginSchema.validate(body)
-    } catch (err) {
-        return 'Login Validation Failed'
-    }
+    const loginData = loginSchema.validate(body)
+    if (loginData.error) return passwordError()
 }
 
 const saltedPassword = async (password) => {
