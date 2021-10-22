@@ -37,6 +37,24 @@ const loginValidation = async (body) => {
     return loginSchema.validate(body)
 }
 
+const updateValidation = async (body) => {
+    const updateSchema = Joi.object({
+        firstName: Joi.string()
+            .min(3)
+            .max(16),
+        lastName: Joi.string()
+            .min(3)
+            .max(24),
+        email: Joi.string()
+            .email(),
+        password: Joi.string()
+            .min(8)
+            .max(24)
+    })
+    const updateData = await updateSchema.validate(body)
+    if (updateData.error) return registerError()
+}
+
 const saltedPassword = async (password) => {
     try {
         const salt = await bcrypt.genSalt(10)
@@ -46,4 +64,4 @@ const saltedPassword = async (password) => {
     }
 }
 
-module.exports = { registerValidation, loginValidation, saltedPassword }
+module.exports = { registerValidation, loginValidation, saltedPassword, updateValidation }
