@@ -16,7 +16,7 @@ router.post('/new', async (req, res) => {
             return res.send(registerError())
         } else {
             const user = await newInstanceAuth(firstName, lastName, email, password)
-            return res.status(201).send({ user: user._id, message: 'Success! User account created.'})
+            return res.status(201).send({ user: user._id, message: 'Success!'})
         }
     } catch (e) {
         return res.send(fiveHundred())
