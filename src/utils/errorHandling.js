@@ -1,34 +1,44 @@
 
 const fourHundred = (message) => {
-    return {message: message, code: 400}
+    return {error: message, code: 400}
+}
+
+const registerError = () => {
+    return {
+        error: 'One or more of the validations was not met. Failed to register account.',
+        code: 400
+    }
 }
 
 const loginError = () => {
     return {
-        message: 'Email was not found. Please register for an account.',
+        error: 'Email or Password failed. Failed to login.',
         code: 400
     }
 }
 
 const passwordError = () => {
     return {
-        message: 'Email or Password was incorrect.',
+        error: 'Email or Password was incorrect.',
         code: 400
     }
 }
 
 const fiveHundred = () => {
     return {
-        message: 'Internal Error',
+        error: 'Internal Server Error',
         code: 500
     }
 }
 
 
 
+
+
 module.exports = {
     fourHundred,
-    loginError,
     passwordError,
-    fiveHundred
+    fiveHundred,
+    registerError,
+    loginError
 }
