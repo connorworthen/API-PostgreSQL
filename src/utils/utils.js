@@ -4,7 +4,7 @@ const {passwordError} = require("../utils/errorHandling");
 
 const passwordCheck = async (password, comparePassword) => {
     const validPassword = await bcrypt.compare(password, comparePassword)
-    if (validPassword) return passwordError()
+    if (!validPassword) return passwordError()
 }
 
 const jwtToken = async (id) => {

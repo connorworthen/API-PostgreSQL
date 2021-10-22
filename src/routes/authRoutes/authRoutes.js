@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { registerValidation, loginValidation } = require('../../middleware/userValidation');
-const { registerService, newInstanceAuth  } = require('../../services/authService');
+const { registerService, newInstanceAuth, jwtAuth } = require('../../services/authService');
 const { passwordCheck } = require('../../utils/utils')
 
 // Register Route
@@ -26,18 +26,21 @@ router.post('/new', async (req, res) => {
 
 // Login
 router.post('/', async (req, res) => {
-        const {email, password} = req.body
+        try {
+            const {email, password} = req.body
 
-        const validateBody = await loginValidation(req.body)
-        const emailExist = await registerService(email)
-        const validPassword = await passwordCheck(password, emailExist.password)
+            const validateBody = await loginValidation(req.body)
+            const emailExist = await registerService(email)
+            const validPassword = emailExist? await passwordCheck(password, emailExist.password) : null
 
-        if (validateBody || validPassword || emailExist) {
-            return res.status(400).send('Email or Password failed')
-        } {
-            // const token = await jwtAuth(email)
-            // return res.status(201).send({token})
-            return res.send('amazing')
+            if (validateBody || validPassword || emailExist) {
+                return res.status(400).send('Email or Password failed')
+            } {
+                const token = await jwtAuth(email)
+                return res.status(201).send({token})
+            }
+        } catch (e) {
+            return res.status(500).send('Internal Service Error')
         }
 })
 

@@ -17,10 +17,18 @@ const passwordError = () => {
     }
 }
 
+const fiveHundred = () => {
+    return {
+        message: 'Internal Error',
+        code: 500
+    }
+}
+
 
 
 module.exports = {
     fourHundred,
     loginError,
-    passwordError
+    passwordError,
+    fiveHundred
 }

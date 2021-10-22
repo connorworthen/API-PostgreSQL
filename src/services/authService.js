@@ -1,7 +1,7 @@
 const User = require('../models/userModel/user');
 const { saltedPassword } = require('../middleware/userValidation');
 const { jwtToken } = require('../utils/utils')
-const {fourHundred, loginError } = require("../utils/errorHandling");
+const {fourHundred } = require("../utils/errorHandling");
 
 const newInstanceAuth = async (firstName, lastName, email, password) => {
     const user = new User({
@@ -19,8 +19,8 @@ const newInstanceAuth = async (firstName, lastName, email, password) => {
 
 const registerService = async (email) => {
     const getEmail = await User.findOne({email})
-    if (getEmail !== null) return getEmail
-    return loginError()
+    if (!getEmail) return getEmail
+    return null
 }
 
 const jwtAuth = async (email) => {
@@ -28,7 +28,7 @@ const jwtAuth = async (email) => {
         const userExist = await User.findOne({email})
         return jwtToken(userExist.id)
     } catch (err) {
-        return 'JWT Error'
+        return fourHundred(err.message)
     }
 }
 
