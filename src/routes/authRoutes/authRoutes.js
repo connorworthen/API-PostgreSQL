@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { registerValidation, loginValidation } = require('../../middleware/userValidation');
 const { registerService, newInstanceAuth, jwtAuth } = require('../../services/authService');
-const { passwordCheck } = require('../../utils/utils')
+const { passwordCheck, jwtToken} = require('../../utils/utils')
 
 // Register Route
 router.post('/new', async (req, res) => {
@@ -36,11 +36,11 @@ router.post('/', async (req, res) => {
             if (validateBody || validPassword || emailExist) {
                 return res.status(400).send('Email or Password failed')
             } {
-                const token = await jwtAuth(email)
+                const token = await jwtToken(req.params.id)
                 return res.status(201).send({token})
             }
         } catch (e) {
-            return res.status(500).send('Internal Service Error')
+            return res.status(500).send('Internal Server Error')
         }
 })
 

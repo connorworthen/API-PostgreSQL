@@ -1,6 +1,5 @@
 const User = require('../models/userModel/user');
 const { saltedPassword } = require('../middleware/userValidation');
-const { jwtToken } = require('../utils/utils')
 const {fourHundred } = require("../utils/errorHandling");
 
 const newInstanceAuth = async (firstName, lastName, email, password) => {
@@ -23,13 +22,13 @@ const registerService = async (email) => {
     return null
 }
 
-const jwtAuth = async (email) => {
-    try {
-        const userExist = await User.findOne({email})
-        return jwtToken(userExist.id)
-    } catch (err) {
-        return fourHundred(err.message)
-    }
-}
+// const jwtAuth = async (email) => {
+//     try {
+//         const userExist = await User.findOne({email})
+//         return jwtToken(userExist.id)
+//     } catch (err) {
+//         return fourHundred(err.message)
+//     }
+// }
 
-module.exports = { registerService, newInstanceAuth, jwtAuth  }
+module.exports = { registerService, newInstanceAuth }
