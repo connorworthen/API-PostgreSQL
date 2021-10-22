@@ -1,10 +1,8 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const {passwordError} = require("../utils/errorHandling");
 
 const passwordCheck = async (password, comparePassword) => {
-    const validPassword = await bcrypt.compare(password, comparePassword)
-    if (!validPassword) return passwordError()
+    return await bcrypt.compare(password, comparePassword)
 }
 
 const jwtToken = async (id) => {

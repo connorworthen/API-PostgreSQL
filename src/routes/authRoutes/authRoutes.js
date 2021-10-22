@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { registerValidation, loginValidation } = require('../../middleware/userValidation');
 const { registerService, newInstanceAuth } = require('../../services/authService');
 const { passwordCheck, jwtToken} = require('../../utils/utils')
-const {registerError, fiveHundred} = require("../../utils/errorHandling");
+const {registerError, fiveHundred, loginError} = require("../../utils/errorHandling");
 
 // Register Route
 router.post('/new', async (req, res) => {
@@ -14,7 +14,7 @@ router.post('/new', async (req, res) => {
 
         if (validateBody || emailCheck) {
             return res.send(registerError())
-        } {
+        } else {
             const user = await newInstanceAuth(firstName, lastName, email, password)
             return res.status(201).send({ user: user._id, message: 'Success! User account created.'})
         }
@@ -23,7 +23,7 @@ router.post('/new', async (req, res) => {
     }
 })
 
-// Login
+// Login Route
 router.post('/', async (req, res) => {
         try {
             const {email, password} = req.body
@@ -32,11 +32,12 @@ router.post('/', async (req, res) => {
             const emailExist = await registerService(email)
             const validPassword = emailExist? await passwordCheck(password, emailExist.password) : null
 
-            if (validateBody || validPassword || emailExist) {
-                return res.status(400).send('Email or Password failed')
-            } {
+            if (validateBody && validPassword && emailExist) {
                 const token = await jwtToken(req.params.id)
                 return res.status(201).send({ token, message: 'Success!'})
+            } else {
+                const error = loginError()
+                return res.status(error.code).send(error)
             }
         } catch (e) {
             return res.send(fiveHundred())
