@@ -20,7 +20,7 @@ const registerValidation = async (body) => {
             .required()
             .max(24)
     })
-    const registerData = await registerSchema.validate(body)
+    const registerData = registerSchema.validate(body)
     if (registerData.error) return registerError()
 }
 
@@ -34,7 +34,7 @@ const loginValidation = async (body) => {
             .min(8)
             .max(24)
     })
-    const loginData = await loginSchema.validate(body)
+    const loginData = loginSchema.validate(body)
     if (loginData.error) return passwordError()
 }
 
