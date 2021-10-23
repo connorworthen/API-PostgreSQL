@@ -5,13 +5,16 @@ const {updateValidation} = require("../../middleware/userValidation");
 // Update User
 router.patch('/:id', async (req, res) => {
     try {
-        const user = req.body
+        const { firstName, lastName, email, password } = req.body
 
         const validateBody = await updateValidation(req.body)
-        if (validateBody) return res.status(400).json({ message: 'Failed to validate data.' })
+        const updatedUser = !validateBody? await updateUser(firstName, lastName, email, password, req.params.id) : null
 
-        const updatedUser = await updateUser(user, req.params.id)
-        return res.status(200).send({updatedUser, message: 'Update user!'})
+        if (!validateBody || updatedUser) {
+            return res.status(200).send({message: 'Updated user!'})
+        } else {
+            return res.status(400).send({message: 'Failed user!'})
+        }
     } catch (err) {
         return res.status(500).json({ message: err.message })
     }
