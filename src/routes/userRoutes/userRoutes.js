@@ -1,9 +1,10 @@
 const router = require('express').Router();
+const createError = require('http-errors');
 const { updateUser, deleteUser } = require('../../services/userServices')
 const {updateValidation} = require("../../middleware/userValidation");
 
 // Update User
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', async (req, res, next) => {
     try {
         const { firstName, lastName, email, password } = req.body
 
@@ -11,22 +12,27 @@ router.patch('/:id', async (req, res) => {
         const updatedUser = !validateBody? await updateUser(firstName, lastName, email, password, req.params.id) : null
 
         if (!validateBody || updatedUser) {
-            return res.status(200).send({message: 'Updated user!'})
-        } else {
-            return res.status(400).send({message: 'Failed user!'})
+            return res.status(200).send({updatedUser})
         }
+        throw createError(400, 'Update failed validations')
     } catch (err) {
-        return res.status(500).json({ message: err.message })
+        next(err)
+        return
     }
 })
 
 // Delete User
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res, next) => {
     try {
         const user = await deleteUser(req.params.id)
-        return res.status(200).send({ message: 'User deleted successfully'})
+
+        if (user.deletedCount > 0) {
+            return res.status(200).send({user})
+        }
+        throw createError(404, 'Update failed validations')
     } catch (err) {
-        return res.status(500).json({ message: err.message })
+        next(err)
+        return
     }
 })
 

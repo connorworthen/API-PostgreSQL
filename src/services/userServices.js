@@ -6,11 +6,11 @@ const updateUser = async (firstName, lastName, email, password, id) => {
             const encrypted = await saltedPassword(password)
             return User.updateMany({_id: id}, {$set: {firstName: firstName, lastName: lastName, email: email, password: encrypted}})
         }
-        return User.updateOne({_id: id}, {$set: {firstName: firstName, lastName: lastName, email: email}})
+        return User.updateMany({_id: id}, {$set: {firstName: firstName, lastName: lastName, email: email}})
 }
 
 const deleteUser = async (id) => {
-    return User.deleteMany({_id: id})
+    return User.deleteOne({_id: id})
 }
 
 module.exports = { updateUser, deleteUser }
