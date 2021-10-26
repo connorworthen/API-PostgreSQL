@@ -27,7 +27,7 @@ router.delete('/:id', async (req, res, next) => {
         const user = await deleteUser(req.params.id)
 
         if (user.deletedCount > 0) {
-            return res.status(200).send({user})
+            return res.status(204).send({user})
         }
         throw createError(404, 'Update failed validations')
     } catch (err) {

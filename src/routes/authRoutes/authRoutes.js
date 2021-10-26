@@ -2,10 +2,10 @@ const router = require('express').Router();
 const { registerValidation, loginValidation } = require('../../middleware/userValidation');
 const { registerService, newInstanceAuth } = require('../../services/authService');
 const { passwordCheck, jwtToken} = require('../../utils/utils')
-const {registerError, fiveHundred, loginError} = require("../../utils/errorHandling");
+const createError = require('http-errors');
 
 // Register Route
-router.post('/new', async (req, res) => {
+router.post('/new', async (req, res, next) => {
     try {
         const {firstName, lastName, email, password} = req.body
 
@@ -13,18 +13,19 @@ router.post('/new', async (req, res) => {
         const emailCheck = await registerService(email)
 
         if (validateBody || emailCheck) {
-            return res.send(registerError())
+            throw createError(400, 'Failed to Register')
         } else {
             const user = await newInstanceAuth(firstName, lastName, email, password)
-            return res.status(201).send({ user: user._id, message: 'Success!'})
+            return res.status(201).send({ user: user._id})
         }
-    } catch (e) {
-        return res.send(fiveHundred())
+    } catch (err) {
+        next(err)
+        return
     }
 })
 
 // Login Route
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
         try {
             const {email, password} = req.body
 
@@ -34,13 +35,11 @@ router.post('/', async (req, res) => {
 
             if (validateBody && validPassword && emailExist) {
                 const token = await jwtToken(req.params.id)
-                return res.status(201).send({ token, message: 'Success!'})
-            } else {
-                const error = loginError()
-                return res.status(error.code).send(error)
-            }
-        } catch (e) {
-            return res.send(fiveHundred())
+                return res.status(200).send({token})
+            } else throw createError(401, 'Email or Password not found')
+        } catch (err) {
+            next(err)
+            return
         }
 })
 
