@@ -1,9 +1,8 @@
 const router = require('express').Router()
 const { allArtistsService, oneArtistService, createArtistService, updateArtistService, deleteArtistService } = require('../../services/artistService')
 const newArtistService = require('../../middleware/artistValidation')
-const { artistGetAll, artistGetId } = require('../../errorHandler/apiError')
+const { artistGetAll, artistId, idNotFound } = require('../../errorHandler/apiError')
 const createError = require("http-errors");
-const {loginValidation} = require("../../middleware/userValidation");
 
 // Get All Artists
 router.get('/', async (req, res, next) => {
@@ -23,7 +22,7 @@ router.get('/:id', async (req, res, next) => {
 
         return res.status(200).send({artist})
     } catch (err) {
-        next(artistGetId(err))
+        next(artistId(err))
         return
     }
 })
@@ -34,11 +33,12 @@ router.post('/', async (req, res, next) => {
     const {name, age, recordLabel, description, albums, songs} = req.body
     try {
         const validateData = await newArtistService(artistData)
-        if (validateData) {
+
+        if (!validateData) {
             const newArtist = await createArtistService(name, age, recordLabel, description, albums, songs)
             return res.status(201).send({newArtist})
         }
-        throw createError(400, 'New Artist Failed Validations')
+        throw createError(400, 'One or More of the validations failed')
     } catch (err) {
         next(err)
         return
@@ -55,9 +55,9 @@ router.patch('/:id', async (req, res, next) => {
             const patchedArtist = await updateArtistService(updatedArtist, req.params.id)
             return res.status(200).send({patchedArtist})
         }
-        throw createError(400, 'Failed to Update Artist')
+        throw createError()
     } catch (err) {
-        next(err)
+        next(artistId(err))
         return
     }
 })
@@ -67,12 +67,10 @@ router.delete('/:id', async (req, res, next) => {
     try {
         const artist = await deleteArtistService(req.params.id)
 
-        if (artist.deletedCount > 0) {
-            return res.status(204).send({artist})
-        }
-        throw createError(404, 'Artist Id not Found')
+        if (artist.deletedCount > 0) return res.status(204).send({message: 'Deleted Artist'})
+        throw createError(404, 'Artist Id Not Found')
     } catch (err) {
-        next(err)
+        next(idNotFound(err))
         return
     }
 })

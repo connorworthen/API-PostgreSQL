@@ -1,5 +1,4 @@
 const Joi = require('@hapi/joi')
-const {fourHundred} = require("../utils/errorHandling");
 
 const newArtistService = async (body) => {
     const albumValidation = Joi.object({
@@ -39,7 +38,7 @@ const newArtistService = async (body) => {
         songs: Joi.array().items(songValidation)
     })
     const artistData = await artistValidation.validate(body)
-    if (artistData.error) return fourHundred()
+    if (artistData.error) return artistData.error
 }
 
 module.exports = newArtistService
