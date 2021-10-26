@@ -1,34 +1,32 @@
 const router = require('express').Router()
 const { allArtistsService, oneArtistService, createArtistService, updateArtistService, deleteArtistService } = require('../../services/artistService')
 const newArtistService = require('../../middleware/artistValidation')
-const createError = require('http-errors')
+const { artistGetAll, artistGetId } = require('../../errorHandler/apiError')
 
-// Get all Artists
-router.get('/', async (req, res) => {
+// Get All Artists
+router.get('/', async (req, res, next) => {
     try {
         const artists = await allArtistsService()
         return res.status(201).send({artists})
     } catch (err) {
-        throw createError()
+        next(artistGetAll())
         return
     }
 })
 
-// Get one Artist
+// Get One Artist
 router.get('/:id', async (req, res, next) => {
     try {
         const artist = await oneArtistService(req.params.id)
-        console.log(artist)
 
-        if (!artist) {
-            throw createError(404, 'Artist Not Found')
-        }
         return res.status(200).send({artist})
     } catch (err) {
-        next(err)
+        next(artistGetId(err))
         return
     }
 })
+
+/// Need to to add errors below
 
 // Create a new Artist
 router.post('/', async (req, res) => {

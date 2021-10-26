@@ -1,16 +1,18 @@
-class ApiError {
-    constructor(code, message) {
-        this.code = code
-        this.message = message
-    }
+const mongoose = require("mongoose");
+const createError = require("http-errors");
 
-    static badRequest(msg) {
-        return new ApiError(400, msg)
-    }
-
-    static internal(msg) {
-        return new ApiError(400, msg)
-    }
+function artistGetAll () {
+    return createError('404', 'Artists not found')
 }
 
-module.exports = ApiError
+function artistGetId (err) {
+    if (err instanceof mongoose.CastError) {
+        return createError(404, 'Artist Id Invalid')
+    }
+    return createError()
+}
+
+module.exports = {
+    artistGetAll,
+    artistGetId
+}

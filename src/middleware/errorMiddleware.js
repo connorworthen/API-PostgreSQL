@@ -1,4 +1,3 @@
-
 function apiErrorHandler (err, req, res) {
     res.status(err.status || 500)
     res.send({
@@ -9,4 +8,5 @@ function apiErrorHandler (err, req, res) {
         }
     })
 }
+
 module.exports = apiErrorHandler
