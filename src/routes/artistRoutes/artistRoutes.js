@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const { allArtistsService, oneArtistService, createArtistService, updateArtistService, deleteArtistService } = require('../../services/artistService')
 const newArtistService = require('../../middleware/artistValidation')
+const createError = require('http-errors')
 
 // Get all Artists
 router.get('/', async (req, res) => {
@@ -8,17 +9,24 @@ router.get('/', async (req, res) => {
         const artists = await allArtistsService()
         return res.status(201).send({artists})
     } catch (err) {
-        return res.status(400).send({ message: err.message })
+        throw createError()
+        return
     }
 })
 
 // Get one Artist
-router.get('/:id', async (req, res) => {
-    const artist = await oneArtistService(req.params.id)
+router.get('/:id', async (req, res, next) => {
     try {
+        const artist = await oneArtistService(req.params.id)
+        console.log(artist)
+
+        if (!artist) {
+            throw createError(404, 'Artist Not Found')
+        }
         return res.status(200).send({artist})
     } catch (err) {
-        return res.status(400).send({message: err.message})
+        next(err)
+        return
     }
 })
 

@@ -36,7 +36,8 @@ router.post('/', async (req, res, next) => {
             if (validateBody && validPassword && emailExist) {
                 const token = await jwtToken(req.params.id)
                 return res.status(200).send({token})
-            } else throw createError(401, 'Email or Password not found')
+            }
+            throw createError(401, 'Email or Password not found')
         } catch (err) {
             next(err)
             return

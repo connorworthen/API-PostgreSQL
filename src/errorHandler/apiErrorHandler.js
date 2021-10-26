@@ -1,11 +1,12 @@
-const ApiError = require('./apiError')
 
 function apiErrorHandler (err, req, res) {
-    if (err instanceof ApiError) {
-        res.status(err.code).json(err.message)
-        return
-    }
-    return res.status(500).json('Internal Service Error')
+    res.status(err.status || 500)
+    res.send({
+        error: {
+            status: err.status || 500,
+            message: err.message || 'Internal Server Error',
+            detail: err.detail
+        }
+    })
 }
-
 module.exports = apiErrorHandler
