@@ -3,8 +3,7 @@ function apiErrorHandler (err, req, res) {
     res.send({
         error: {
             status: err.status || 500,
-            message: err.message || 'Internal Server Error',
-            detail: err.detail
+            message: err.message || 'Internal Server Error'
         }
     })
 }

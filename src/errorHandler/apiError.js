@@ -12,6 +12,7 @@ function artistGetId (err) {
     return createError()
 }
 
+
 module.exports = {
     artistGetAll,
     artistGetId

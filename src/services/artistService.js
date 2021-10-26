@@ -11,7 +11,7 @@ const oneArtistService = async (id) => {
 }
 
 const createArtistService = async (name, age, recordLabel, description, albums, songs) => {
-    const artist = await artistModel({
+    const artistInstance = await artistModel({
             name,
             age,
             recordLabel,
@@ -19,6 +19,7 @@ const createArtistService = async (name, age, recordLabel, description, albums, 
             albums,
             songs
     })
+    const artist = await artistInstance.save()
     if (artist) return artist
     return null
 }
