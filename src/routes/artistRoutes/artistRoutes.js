@@ -1,8 +1,8 @@
 const router = require('express').Router()
+const createError = require("http-errors");
 const { allArtistsService, oneArtistService, createArtistService, updateArtistService, deleteArtistService } = require('../../services/artistService')
 const newArtistService = require('../../middleware/artistValidation')
 const { artistGetAll, artistId, idNotFound } = require('../../errorHandler/apiError')
-const createError = require("http-errors");
 
 // Get All Artists
 router.get('/', async (req, res, next) => {
@@ -55,7 +55,7 @@ router.patch('/:id', async (req, res, next) => {
             const patchedArtist = await updateArtistService(updatedArtist, req.params.id)
             return res.status(200).send({patchedArtist})
         }
-        throw createError()
+        throw createError(404, 'Artist Id Not Found')
     } catch (err) {
         next(artistId(err))
         return

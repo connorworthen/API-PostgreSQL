@@ -9,7 +9,7 @@ function artistId(err) {
     if (err instanceof mongoose.CastError) {
         return createError(404, 'Artist Id Invalid')
     }
-    return createError(400, 'Validations Failed')
+    return createError(400, 'One or more Validations Failed')
 }
 
 function idNotFound(err) {
