@@ -1,15 +1,19 @@
-const mongoose = require('mongoose')
+const {Client} = require('pg')
 
-const { DATABASE_URL } = process.env
-
+const client = new Client({
+    host: "localhost",
+    user: "postgres",
+    port: 5432,
+    password: "rootUser",
+    database: "postgres"
+})
 exports.connect = () => {
-    mongoose.connect(DATABASE_URL, {
-        useNewUrlParser: true
-    })
-    .then(() => {
-        console.log("Connected to Database")
-    })
-    .catch((err) => {
-        console.log("Connection failed. Please try again")
-    })
+    client.connect()
+        .then(() => {
+            console.log("Connected to Database")
+        })
+        .catch((err) => {
+            console.log("Connection failed. Please try again")
+        })
 }
+
